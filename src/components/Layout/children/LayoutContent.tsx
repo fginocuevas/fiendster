@@ -1,14 +1,16 @@
 import { Avatar, Button, Card, CardContent, Container, Divider, FormControl, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { MouseEvent } from "react";
+import { Post } from "../../../dto/post.dto";
+import LayoutPost from "./LayoutPost";
 
 function LayoutContent() {
 
-    const [posts, setPosts] = React.useState<{ id: number; content: string; }[]>([{ id: 1, content: "Test Content" }]);
+    const [posts, setPosts] = React.useState<Post[]>([new Post(1, "Hello World", "James")]);
     const [content, setContent] = React.useState<string>("");
 
     function submitPost(event: MouseEvent<HTMLButtonElement>): void {
-        setPosts([...posts, { id: posts.length, content: content }]);
+        setPosts([...posts, new Post(posts.length + 1, content, "James")]);
         setContent("");
     }
 
@@ -37,19 +39,7 @@ function LayoutContent() {
             
             <Container sx={{ pt: 1, pb: 1 }}>
                 {posts.map((post: any, index: number) => (
-                    <Card key={index} sx={{ height: 140, p: 2, mt: 1 }}>
-                        <Container sx={{ display: 'flex' }}>
-                            <Avatar sx={{ mr: 1, ml: 1}}></Avatar>
-                            <Typography sx={{ mt: 1, mb: 1}}>James</Typography>
-                        </Container>
-                        <Container>
-                            <CardContent>
-                                <Typography key={post.id} variant="h6" noWrap>
-                                    {post.content}
-                                </Typography>
-                            </CardContent>
-                        </Container>
-                    </Card>
+                    <LayoutPost key={index} post={post} index={index} />
                 ))}
             </Container>
         </Container>
